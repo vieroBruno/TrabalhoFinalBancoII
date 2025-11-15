@@ -1,16 +1,33 @@
 package model;
 
+import org.bson.types.ObjectId;
+
 public class Produto {
+    private ObjectId id;
     private int id_produto;
     private String nome;
     private String unidade_medida;
     private double quantidade;
 
+    public Produto() {
+    }
 
     public Produto(String nome, String unidade_medida, double quantidade) {
         this.nome = nome;
         this.unidade_medida = unidade_medida;
         this.quantidade = quantidade;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public String getIdString() {
+        return id.toHexString();
     }
 
     public int getId_produto() {
@@ -45,10 +62,11 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
+    @Override
     public String toString() {
         return
-            " : nome='" + nome + '\'' +
-            ", unidade de medida='" + unidade_medida + '\'' +
-            ", quantidade=" + quantidade;
+                " : nome='" + nome + '\'' +
+                        ", unidade de medida='" + unidade_medida + '\'' +
+                        ", quantidade=" + quantidade;
     }
 }

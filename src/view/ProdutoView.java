@@ -1,18 +1,17 @@
 package view;
 
 import model.Produto;
-import repository.jdbc.JdbcProdutoRepository;
+// Não precisamos mais importar o JdbcProdutoRepository aqui
 import service.ProdutoService;
 import util.ValidacaoHelper;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class ProdutoView {
 
     private final Scanner sc = new Scanner(System.in);
-    private final ProdutoService produtoService = new ProdutoService(new JdbcProdutoRepository());
+    private final ProdutoService produtoService = new ProdutoService();
 
     public void exibirMenu() {
         while (true) {
@@ -48,6 +47,7 @@ public class ProdutoView {
     }
 
     private void cadastrar() {
+        // ... (o método cadastrar() não muda em nada) ...
         String nome = ValidacaoHelper.isStringValida(sc, "Nome: ");
 
         String unidadeMedida = ValidacaoHelper.lerUnidadeMedidaValida(sc, "Unidade de Medida (Quilogramas, Gramas, Litros, Mililitros, Unidades): ");
@@ -55,10 +55,18 @@ public class ProdutoView {
         double quantidade = ValidacaoHelper.lerDouble(sc, "Quantidade: ");
 
         Produto produto = new Produto(nome, unidadeMedida, quantidade);
+
+        int proximoIdLegado = produtoService.listarProduto().stream()
+                .mapToInt(Produto::getId_produto)
+                .max()
+                .orElse(0) + 1;
+        produto.setId_produto(proximoIdLegado);
+
         produtoService.cadastrarProduto(produto);
     }
 
     private void editar() {
+        // ... (o método editar() não muda em nada na sua lógica) ...
         System.out.println("\n--- Selecione o Produto para editar ---");
         List<Produto> produtos = listar("editar");
 
@@ -81,10 +89,10 @@ public class ProdutoView {
         }
 
         Produto produtoParaEditar = produtos.get(escolha - 1);
-        Produto produtoAtualizado = new Produto(produtoParaEditar.getNome(), produtoParaEditar.getUnidade_medida(), produtoParaEditar.getQuantidade());
-        produtoAtualizado.setId_produto(produtoParaEditar.getId_produto());
 
-        System.out.println("Editando dados de: " + produtoParaEditar.getNome());
+        Produto produtoAtualizado = produtoService.findById(produtoParaEditar.getIdString());
+
+        System.out.println("Editando dados de: " + produtoAtualizado.getNome());
 
         System.out.println("Deseja alterar o nome? (S/N)");
         if (sc.nextLine().equalsIgnoreCase("S")) {
@@ -106,6 +114,7 @@ public class ProdutoView {
     }
 
     private List<Produto> listar(String metodo) {
+        // ... (o método listar() não muda em nada) ...
         List<Produto> produtos = produtoService.listarProduto();
 
         if (produtos.isEmpty()) {
@@ -154,15 +163,15 @@ public class ProdutoView {
 
         int escolhafinal;
         do {
-             escolhafinal = ValidacaoHelper.lerInteiro(sc, "Confirme: ");
-             if (escolhafinal != 1 && escolhafinal != 2 ){
-                 System.out.println("Opção inválida tente novamente");
-             }
+            escolhafinal = ValidacaoHelper.lerInteiro(sc, "Confirme: ");
+            if (escolhafinal != 1 && escolhafinal != 2 ){
+                System.out.println("Opção inválida tente novamente");
+            }
         } while (escolhafinal != 1 && escolhafinal != 2 );
 
 
         if (escolhafinal == 1) {
-            produtoService.excluirProduto(produtoParaExcluir.getId_produto());
+            produtoService.excluirProduto(produtoParaExcluir.getIdString());
         } else {
             System.out.println("Operação cancelada!");
         }

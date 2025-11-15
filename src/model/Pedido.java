@@ -1,13 +1,21 @@
 package model;
 
 import java.time.LocalDate;
+import org.bson.types.ObjectId;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Pedido {
-    private int id_mesa;
+    private ObjectId id;
     private int id_pedido;
+    private int id_mesa;
     private int id_funcionario;
     private LocalDate data_pedido;
     private String status;
+
+    private List<PedidoItem> itens = new ArrayList<>();
+
+    public Pedido() {}
 
     public Pedido(int id_mesa, int id_pedido, LocalDate data_pedido, String status) {
         this.id_mesa = id_mesa;
@@ -15,7 +23,6 @@ public class Pedido {
         this.data_pedido = data_pedido;
         this.status = status;
     }
-
     public int getId_mesa() {
         return id_mesa;
     }
@@ -54,5 +61,9 @@ public class Pedido {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void adicionarItem(PedidoItem item) {
+        this.itens.add(item);
     }
 }

@@ -2,7 +2,6 @@ package view;
 
 import util.ValidacaoHelper;
 import model.Mesa;
-import repository.jdbc.JdbcMesaRepository;
 import service.MesaService;
 
 import java.util.InputMismatchException;
@@ -12,7 +11,7 @@ import java.util.Scanner;
 public class MesaView {
 
 		private final Scanner sc = new Scanner(System.in);
-		private final MesaService mesaService = new MesaService(new JdbcMesaRepository());
+	//	private final MesaService mesaService = new MesaService(new JdbcMesaRepository());
 
 		public void exibirMenu(){
 			while (true) {
