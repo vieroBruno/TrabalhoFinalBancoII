@@ -2,7 +2,6 @@ package service;
 
 import model.Item;
 import repository.ItemRepository;
-import repository.jdbc.JdbcItemRepository;
 
 import java.util.List;
 

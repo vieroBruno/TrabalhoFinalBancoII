@@ -2,6 +2,7 @@ package view;
 
 import model.Produto;
 // Não precisamos mais importar o JdbcProdutoRepository aqui
+import repository.mongo.MongoProdutoRepository;
 import service.ProdutoService;
 import util.ValidacaoHelper;
 
@@ -11,7 +12,7 @@ import java.util.Scanner;
 public class ProdutoView {
 
     private final Scanner sc = new Scanner(System.in);
-    private final ProdutoService produtoService = new ProdutoService();
+    private final ProdutoService produtoService = new ProdutoService(new MongoProdutoRepository());
 
     public void exibirMenu() {
         while (true) {
@@ -47,7 +48,6 @@ public class ProdutoView {
     }
 
     private void cadastrar() {
-        // ... (o método cadastrar() não muda em nada) ...
         String nome = ValidacaoHelper.isStringValida(sc, "Nome: ");
 
         String unidadeMedida = ValidacaoHelper.lerUnidadeMedidaValida(sc, "Unidade de Medida (Quilogramas, Gramas, Litros, Mililitros, Unidades): ");
@@ -66,7 +66,6 @@ public class ProdutoView {
     }
 
     private void editar() {
-        // ... (o método editar() não muda em nada na sua lógica) ...
         System.out.println("\n--- Selecione o Produto para editar ---");
         List<Produto> produtos = listar("editar");
 
@@ -114,7 +113,6 @@ public class ProdutoView {
     }
 
     private List<Produto> listar(String metodo) {
-        // ... (o método listar() não muda em nada) ...
         List<Produto> produtos = produtoService.listarProduto();
 
         if (produtos.isEmpty()) {

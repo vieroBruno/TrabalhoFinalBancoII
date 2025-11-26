@@ -1,19 +1,17 @@
 package view;
 
 import model.Item;
-import repository.jdbc.JdbcItemRepository;
+import repository.mongo.MongoItemRepository;
 import service.ItemService;
 import util.ValidacaoHelper;
 
-
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class ItemView {
 
 	private final Scanner sc = new Scanner(System.in);
-	private final ItemService itemService = new ItemService(new JdbcItemRepository());
+	private final ItemService itemService = new ItemService(new MongoItemRepository());
 
 	public void exibirMenu() {
 		while (true) {

@@ -1,7 +1,6 @@
 package repository;
 
 import model.Mesa;
-
 import java.util.List;
 
 public interface MesaRepository {
@@ -10,7 +9,6 @@ public interface MesaRepository {
     void update(Mesa mesa);
     void delete(int id_mesa);
     Mesa findById(int id_mesa);
+    Mesa findByNumero(int id_mesa);
     List<Mesa> listAll();
-    Mesa findByNumero(int numero);
-
 }

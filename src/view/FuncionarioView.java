@@ -1,7 +1,7 @@
 package view;
 
 import model.Funcionario;
-import repository.jdbc.JdbcFuncionarioRepository;
+import repository.mongo.MongoFuncionarioRepository;
 import service.FuncionarioService;
 import util.ValidacaoHelper;
 
@@ -10,7 +10,7 @@ import java.util.*;
 public class FuncionarioView {
 
     private final Scanner sc = new Scanner(System.in);
-    private final FuncionarioService funcionarioService = new FuncionarioService(new JdbcFuncionarioRepository());
+    private final FuncionarioService funcionarioService = new FuncionarioService(new MongoFuncionarioRepository());
 
     public void exibirMenu(){
         while (true) {

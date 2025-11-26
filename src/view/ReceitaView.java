@@ -6,6 +6,9 @@ import model.Receita;
 import repository.jdbc.JdbcItemRepository;
 import repository.jdbc.JdbcProdutoRepository;
 import repository.jdbc.JdbcReceitaRepository;
+import repository.mongo.MongoItemRepository;
+import repository.mongo.MongoProdutoRepository;
+import repository.mongo.MongoReceitaRepository;
 import service.ItemService;
 import service.ProdutoService;
 import service.ReceitaService;
@@ -17,9 +20,9 @@ import java.util.Scanner;
 public class ReceitaView {
 
     private final Scanner sc = new Scanner(System.in);
-    private final ReceitaService receitaService = new ReceitaService(new JdbcReceitaRepository());
-    private final ProdutoService produtoService = new ProdutoService(new JdbcProdutoRepository());
-    private final ItemService itemService = new ItemService(new JdbcItemRepository());
+    private final ReceitaService receitaService = new ReceitaService(new MongoReceitaRepository());
+    private final ProdutoService produtoService = new ProdutoService(new MongoProdutoRepository());
+    private final ItemService itemService = new ItemService(new MongoItemRepository());
 
     public void exibirMenu() {
         while (true) {

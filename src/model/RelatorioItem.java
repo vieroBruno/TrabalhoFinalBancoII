@@ -7,7 +7,6 @@ public class RelatorioItem {
     private int quantidadeVendida;
     private double receitaGerada;
 
-    // Getters e Setters para todos os campos
 
     public String getNome() {
         return nome;

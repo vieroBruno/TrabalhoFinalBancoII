@@ -1,17 +1,17 @@
 package view;
 
+import repository.mongo.MongoMesaRepository;
 import util.ValidacaoHelper;
 import model.Mesa;
 import service.MesaService;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class MesaView {
 
 		private final Scanner sc = new Scanner(System.in);
-	//	private final MesaService mesaService = new MesaService(new JdbcMesaRepository());
+	    private final MesaService mesaService = new MesaService(new MongoMesaRepository());
 
 		public void exibirMenu(){
 			while (true) {
@@ -60,7 +60,7 @@ public class MesaView {
 
             int capacidade = ValidacaoHelper.lerInteiro(sc, "Capacidade: ");
 
-            Mesa mesa = new Mesa(0, numero, capacidade);
+            Mesa mesa = new Mesa(numero, capacidade);
             mesaService.cadastrarMesa(mesa);
 		}
 
@@ -87,8 +87,8 @@ public class MesaView {
                 return;
             }
 
-            Mesa mesaParaEditar = mesas.get(escolha);
-            Mesa mesaAtualizada = new Mesa(mesaParaEditar.getId_mesa(), mesaParaEditar.getNumero(), mesaParaEditar.getCapacidade());
+            Mesa mesaParaEditar = mesas.get(escolha - 1);
+            Mesa mesaAtualizada = new Mesa(mesaParaEditar.getNumero(), mesaParaEditar.getCapacidade());
 
             System.out.println("Editando mesa numero: " + mesaParaEditar.getNumero());
 
@@ -97,8 +97,7 @@ public class MesaView {
                 int novoNumero;
                 while (true) {
                     novoNumero = ValidacaoHelper.lerInteiro(sc, "Novo numero: ");
-                    Mesa mesaExistente = mesaService.findByNumero(novoNumero);
-                    if (mesaExistente == null || mesaExistente.getId_mesa() == mesaParaEditar.getId_mesa()) {
+                    if (mesaService.findByNumero(novoNumero) == null || novoNumero == mesaParaEditar.getNumero()) {
                         mesaAtualizada.setNumero(novoNumero);
                         break;
                     } else {
@@ -170,7 +169,7 @@ public class MesaView {
             } while (escolhafinal != 1 && escolhafinal != 2 );
 
             if (escolhafinal == 1) {
-                mesaService.excluirMesa(mesaParaExcluir.getId_mesa());
+                mesaService.excluirMesa(mesaParaExcluir.getIdString());
             } else {
                 System.out.println("Operação cancelada!");
             }

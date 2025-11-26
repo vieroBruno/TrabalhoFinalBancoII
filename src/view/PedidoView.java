@@ -2,6 +2,7 @@ package view;
 
 import model.*;
 import repository.jdbc.*;
+import repository.mongo.*;
 import service.*;
 import util.ValidacaoHelper;
 
@@ -15,13 +16,13 @@ import java.util.Optional;
 public class PedidoView {
 
     private final Scanner sc = new Scanner(System.in);
-    private final PedidoService pedidoService = new PedidoService(new JdbcPedidoRepository());
-    private final MesaService mesaService = new MesaService(new JdbcMesaRepository());
-    private final FuncionarioService funcionarioService = new FuncionarioService(new JdbcFuncionarioRepository());
-    private final ItemService itemService = new ItemService(new JdbcItemRepository());
-    private final PedidoItemService pedidoItemService = new PedidoItemService(new JdbcPedidoItemRepository());
-    private final ProdutoService produtoService = new ProdutoService(new JdbcProdutoRepository());
-    private final ReceitaService receitaService = new ReceitaService(new JdbcReceitaRepository());
+    private final PedidoService pedidoService = new PedidoService(new MongoPedidoRepository());
+    private final MesaService mesaService = new MesaService(new MongoMesaRepository());
+    private final FuncionarioService funcionarioService = new FuncionarioService(new MongoFuncionarioRepository());
+    private final ItemService itemService = new ItemService(new MongoItemRepository());
+    private final PedidoItemService pedidoItemService = new PedidoItemService(new MongoPedidoItemRepository());
+    private final ProdutoService produtoService = new ProdutoService(new MongoProdutoRepository());
+    private final ReceitaService receitaService = new ReceitaService(new MongoReceitaRepository());
 
     public void exibirMenu() {
         while (true) {

@@ -10,12 +10,10 @@ import java.util.List;
 
 public class ProdutoService {
 
-    // Usamos a INTERFACE
     private final ProdutoRepository repository;
 
-    public ProdutoService() {
-        // Instanciamos a IMPLEMENTAÇÃO do Mongo
-        this.repository = new MongoProdutoRepository();
+    public ProdutoService(ProdutoRepository repository) {
+        this.repository = repository;
     }
 
     public void cadastrarProduto(Produto produto) {

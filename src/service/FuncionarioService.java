@@ -1,15 +1,15 @@
 package service;
 
 import model.Funcionario;
-import repository.jdbc.JdbcFuncionarioRepository;
+import repository.FuncionarioRepository;
 
 import java.util.List;
 
 
 public class FuncionarioService {
-    private final JdbcFuncionarioRepository repository;
+    private final FuncionarioRepository repository;
 
-    public FuncionarioService(JdbcFuncionarioRepository repository) {
+    public FuncionarioService(FuncionarioRepository repository) {
         this.repository = repository;
     }
 

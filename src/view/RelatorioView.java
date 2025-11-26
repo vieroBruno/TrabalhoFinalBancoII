@@ -3,6 +3,7 @@ package view;
 import model.Produto;
 import model.RelatorioItem;
 import repository.jdbc.JdbcRelatorioRepository;
+import repository.mongo.MongoRelatorioRepository;
 import service.RelatorioService;
 import util.ValidacaoHelper;
 
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class RelatorioView {
     private final Scanner sc = new Scanner(System.in);
-    private final RelatorioService relatorioService = new RelatorioService(new JdbcRelatorioRepository());
+    private final RelatorioService relatorioService = new RelatorioService(new MongoRelatorioRepository());
 
     public void exibirMenu() {
         while (true) {

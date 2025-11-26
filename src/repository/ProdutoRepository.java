@@ -7,8 +7,7 @@ public interface ProdutoRepository {
 
     void save(Produto produto);
     void update(Produto produto);
-    void delete(String id_produto);
-    Produto findById(String id_produto);
-    Produto findByLegacyId(int id_produto_legado);
+    void delete(int id_produto);
+    Produto findById(int id_produto);
     List<Produto> listAll();
 }
