@@ -1,7 +1,6 @@
 package view;
 
 import model.Produto;
-// Não precisamos mais importar o JdbcProdutoRepository aqui
 import repository.mongo.MongoProdutoRepository;
 import service.ProdutoService;
 import util.ValidacaoHelper;
@@ -89,7 +88,7 @@ public class ProdutoView {
 
         Produto produtoParaEditar = produtos.get(escolha - 1);
 
-        Produto produtoAtualizado = produtoService.findById(produtoParaEditar.getIdString());
+        Produto produtoAtualizado = produtoService.findById(produtoParaEditar.getId_produto());
 
         System.out.println("Editando dados de: " + produtoAtualizado.getNome());
 
@@ -169,7 +168,7 @@ public class ProdutoView {
 
 
         if (escolhafinal == 1) {
-            produtoService.excluirProduto(produtoParaExcluir.getIdString());
+            produtoService.excluirProduto(produtoParaExcluir.getId_produto());
         } else {
             System.out.println("Operação cancelada!");
         }

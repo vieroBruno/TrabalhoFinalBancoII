@@ -169,7 +169,7 @@ public class MesaView {
             } while (escolhafinal != 1 && escolhafinal != 2 );
 
             if (escolhafinal == 1) {
-                mesaService.excluirMesa(mesaParaExcluir.getIdString());
+                mesaService.excluirMesa(mesaParaExcluir.getId_mesa());
             } else {
                 System.out.println("Operação cancelada!");
             }

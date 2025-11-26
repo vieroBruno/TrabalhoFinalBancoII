@@ -2,7 +2,6 @@ package view;
 
 import model.Produto;
 import model.RelatorioItem;
-import repository.jdbc.JdbcRelatorioRepository;
 import repository.mongo.MongoRelatorioRepository;
 import service.RelatorioService;
 import util.ValidacaoHelper;

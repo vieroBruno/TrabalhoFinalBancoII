@@ -28,15 +28,12 @@ public class ProdutoService {
         return repository.listAll();
     }
 
-    public void excluirProduto(String id_produto) {
+    public void excluirProduto(int id_produto) {
         repository.delete(id_produto);
     }
 
-    public Produto findById(String id_produto) {
+    public Produto findById(int id_produto) {
         return repository.findById(id_produto);
     }
 
-    public Produto findByLegacyId(int id_produto_legado) {
-        return repository.findByLegacyId(id_produto_legado);
-    }
 }

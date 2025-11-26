@@ -14,7 +14,7 @@ public class MesaService {
     public void cadastrarMesa(Mesa mesa) { repository.save(mesa); }
     public void editarMesa(Mesa mesa) { repository.update(mesa); }
     public List<Mesa> listarMesa() { return repository.listAll(); }
-    public void excluirMesa(String id) { repository.delete(id); }
+    public void excluirMesa(int id_mesa) { repository.delete(id_mesa); }
     public Mesa findByNumero(int numero) { return repository.findByNumero(numero); }
-    public Mesa findById(String id) { return repository.findById(id); }
+    public Mesa findById(int id_mesa) { return repository.findById(id_mesa); }
 }
