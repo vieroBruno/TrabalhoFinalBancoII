@@ -3,7 +3,7 @@ package model;
 import org.bson.codecs.pojo.annotations.BsonId;
 
 public class Funcionario {
-    @BsonId
+
     private int id_funcionario;
     private String nome;
     private String cargo;
@@ -19,6 +19,7 @@ public class Funcionario {
         this.salario = salario;
         this.telefone = telefone;
     }
+    @BsonId
     public int getIdFuncionario() { return id_funcionario; }
     public void setIdFuncionario(int id_funcionario) { this.id_funcionario = id_funcionario; }
     public String getNome() { return nome; }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
-    @BsonId
     private int id_item;
     private String nome;
     private double preco_venda;
@@ -21,6 +20,7 @@ public class Item {
         this.descricao = descricao;
     }
 
+    @BsonId
     public int getId_item() { return id_item; }
     public void setId_item(int id_item) { this.id_item = id_item; }
     public String getNome() { return nome; }

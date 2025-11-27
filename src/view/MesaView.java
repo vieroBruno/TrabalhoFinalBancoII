@@ -60,7 +60,7 @@ public class MesaView {
 
             int capacidade = ValidacaoHelper.lerInteiro(sc, "Capacidade: ");
 
-            Mesa mesa = new Mesa(numero, capacidade);
+            Mesa mesa = new Mesa(0, numero, capacidade);
             mesaService.cadastrarMesa(mesa);
 		}
 
@@ -88,7 +88,7 @@ public class MesaView {
             }
 
             Mesa mesaParaEditar = mesas.get(escolha - 1);
-            Mesa mesaAtualizada = new Mesa(mesaParaEditar.getNumero(), mesaParaEditar.getCapacidade());
+            Mesa mesaAtualizada = new Mesa(mesaParaEditar.getId_mesa(), mesaParaEditar.getNumero(), mesaParaEditar.getCapacidade());
 
             System.out.println("Editando mesa numero: " + mesaParaEditar.getNumero());
 

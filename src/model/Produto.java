@@ -3,7 +3,6 @@ package model;
 import org.bson.codecs.pojo.annotations.BsonId;
 
 public class Produto {
-    @BsonId
     private int id_produto;
     private String nome;
     private String unidade_medida;
@@ -17,6 +16,7 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
+    @BsonId
     public int getId_produto() { return id_produto; }
     public void setId_produto(int id_produto) { this.id_produto = id_produto; }
     public String getNome() { return nome; }

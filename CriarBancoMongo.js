@@ -8,8 +8,8 @@ db.pedidos.drop();
 
 db.funcionarios.insertMany([
     { _id: 1, nome: 'João Silva', cargo: 'Garçom', salario: 2200.00, telefone: '47999887766' },
-    { _id: 2, nome: 'Maria Oliveira', cargo: 'Garçonete',salario: 2250.00, telefone: '47988776655' },
-    { _id: 3, nome: 'Carlos Pereira', cargo: 'Gerente',salario: 4500.00, telefone: '47977665544' }
+    { _id: 2, nome: 'Maria Oliveira', cargo: 'Garçonete', salario: 2250.00, telefone: '47988776655' },
+    { _id: 3, nome: 'Carlos Pereira', cargo: 'Gerente', salario: 4500.00, telefone: '47977665544' }
 ]);
 
 db.mesas.insertMany([
@@ -146,5 +146,3 @@ db.pedidos.insertMany([
         ]
     }
 ]);
-
-print("Banco 'restaurantev2' e coleções criadas com sucesso.");

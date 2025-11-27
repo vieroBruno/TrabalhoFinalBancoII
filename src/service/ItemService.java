@@ -1,6 +1,7 @@
 package service;
 
 import model.Item;
+import model.Mesa;
 import repository.ItemRepository;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public class ItemService {
 	public void excluirItem(int id_item) {
 		repository.delete(id_item);
 	}
+
+    public Item findById(int id_item) { return repository.findById(id_item); }
+
 }

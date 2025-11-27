@@ -90,6 +90,7 @@ public final class ValidacaoHelper {
                 System.out.println("Erro: O telefone deve conter 10 ou 11 dígitos (incluindo DDD). Tente novamente.");
             }
         }
+        sc.next();
         return telefone;
     }
 

@@ -29,8 +29,9 @@ public class PedidoView {
             System.out.println("1. Novo Pedido");
             System.out.println("2. Listar Todos os Pedidos");
             System.out.println("3. Listar Pedidos Ativos");
-            System.out.println("4. Editar Pedido");
-            System.out.println("5. Excluir Pedido");
+            System.out.println("4. Listar Itens de um Pedido");
+            System.out.println("5. Editar Pedido");
+            System.out.println("6. Excluir Pedido");
             System.out.println("0. Voltar");
 
             int opcao = ValidacaoHelper.lerInteiro(sc, "Escolha uma opção: ");
@@ -46,9 +47,12 @@ public class PedidoView {
                     listarAtivosComTotal();
                     break;
                 case 4:
-                    editarPedidoCompleto();
+                    listarItensDoPedido();
                     break;
                 case 5:
+                    editarPedidoCompleto();
+                    break;
+                case 6:
                     excluir();
                     break;
                 case 0: {
@@ -370,6 +374,60 @@ public class PedidoView {
             }
 
             querAdicionar = ValidacaoHelper.lerInteiro(sc, "\nDeseja adicionar outro item?\n1. Sim\n2. Não\nEscolha uma opção: ");
+        }
+    }
+
+    private void listarItensDoPedido() {
+        System.out.println("\n--- Selecione o Pedido para ver os itens ---");
+        List<Pedido> pedidos = pedidoService.listarPedido();
+
+        if (pedidos.isEmpty()) {
+            System.out.println("Nenhum pedido cadastrado.");
+            return;
+        }
+
+        int cont = 0;
+        for (Pedido p : pedidos) {
+            cont++;
+            Mesa m = mesaService.findById(p.getId_mesa());
+            Funcionario f = funcionarioService.findById(p.getId_funcionario());
+
+            System.out.printf("%d - Pedido #%d | Mesa: %s | Garçom: %s | Data: %s\n",
+                    cont, p.getId_pedido(), m.getNumero(), f.getNome(), p.getData_pedido());
+        }
+        System.out.println("0 - Cancelar");
+
+        int escolha;
+        do {
+            escolha = ValidacaoHelper.lerInteiro(sc, "Escolha uma opção: ");
+            if (escolha < 0 || escolha > pedidos.size()) {
+                System.out.println("Opção inválida. Tente novamente!");
+            }
+        } while (escolha < 0 || escolha > pedidos.size());
+
+        if (escolha == 0) return;
+
+        Pedido pedidoSelecionado = pedidos.get(escolha - 1);
+
+        if (pedidoSelecionado.getItens() == null || pedidoSelecionado.getItens().isEmpty()) {
+            System.out.println("Este pedido não possui itens.");
+        } else {
+            System.out.println("\n--- Itens do Pedido " + pedidoSelecionado.getId_pedido() + " ---");
+            double totalPedido = 0;
+
+            for (PedidoItem pi : pedidoSelecionado.getItens()) {
+                Item item = itemService.findById(pi.getId_item());
+
+                String nomeItem = (item != null) ? item.getNome() : "Item (ID " + pi.getId_item() + " não encontrado)";
+                double preco = (item != null) ? item.getPreco_venda() : 0.0;
+                double subtotal = preco * pi.getQuantidade();
+
+                System.out.printf("- %s | Qtd: %d | Unit: R$ %.2f | Subtotal: R$ %.2f\n",
+                        nomeItem, pi.getQuantidade(), preco, subtotal);
+
+                totalPedido += subtotal;
+            }
+            System.out.printf("Total do Pedido: R$ %.2f\n", totalPedido);
         }
     }
 }

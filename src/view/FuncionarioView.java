@@ -81,6 +81,7 @@ public class FuncionarioView {
         Funcionario fParaEditar = funcionarios.get(escolha - 1);
         Funcionario fAtualizado = new Funcionario(fParaEditar.getIdFuncionario(), fParaEditar.getNome(), fParaEditar.getCargo(), fParaEditar.getSalario(), fParaEditar.getTelefone());
 
+        System.out.println(fParaEditar.getIdFuncionario());
         System.out.println("Editando dados de: " + fAtualizado.getNome());
 
 
