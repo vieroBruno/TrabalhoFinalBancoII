@@ -24,17 +24,19 @@ public class MongoRelatorioRepository implements RelatorioRepository {
 
     private final MongoCollection<Produto> produtosCollection;
     private final MongoCollection<Document> pedidosCollection;
-    private final MongoCollection<Document> itensCollection;
 
     public MongoRelatorioRepository() {
         MongoDatabase db = MongoConnection.getDatabase();
         this.produtosCollection = db.getCollection("produtos", Produto.class);
         this.pedidosCollection = db.getCollection("pedidos");
-        this.itensCollection = db.getCollection("itens");
     }
 
     private Date toDate(LocalDate localDate) {
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    private Date toEndOfDay(LocalDate localDate) {
+        return Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).minusNanos(1).toInstant());
     }
 
     @Override
@@ -44,14 +46,14 @@ public class MongoRelatorioRepository implements RelatorioRepository {
                         Filters.and(
                                 Filters.eq("status", "Pago"),
                                 Filters.gte("data_pedido", toDate(inicio)),
-                                Filters.lte("data_pedido", toDate(fim))
+                                Filters.lte("data_pedido", toEndOfDay(fim))
                         )
                 ),
                 Aggregates.unwind("$itens"),
                 Aggregates.lookup(
                         "itens",
                         "itens.id_item",
-                        "id_item",
+                        "_id",
                         "item_info"
                 ),
                 Aggregates.unwind("$item_info"),
@@ -63,7 +65,12 @@ public class MongoRelatorioRepository implements RelatorioRepository {
         );
 
         Document result = pedidosCollection.aggregate(pipeline).first();
-        return (result != null) ? result.getDouble("faturamento_total") : 0.0;
+
+        if (result != null) {
+            Number faturamento = result.get("faturamento_total", Number.class);
+            return faturamento != null ? faturamento.doubleValue() : 0.0;
+        }
+        return 0.0;
     }
 
     @Override
@@ -73,7 +80,7 @@ public class MongoRelatorioRepository implements RelatorioRepository {
                 Aggregates.match(
                         Filters.and(
                                 Filters.gte("data_pedido", toDate(inicio)),
-                                Filters.lte("data_pedido", toDate(fim))
+                                Filters.lte("data_pedido", toEndOfDay(fim))
                         )
                 ),
                 Aggregates.unwind("$itens"),
@@ -83,7 +90,7 @@ public class MongoRelatorioRepository implements RelatorioRepository {
                 Aggregates.lookup(
                         "itens",
                         "_id",
-                        "id_item",
+                        "_id",
                         "item_info"
                 ),
                 Aggregates.unwind("$item_info"),
@@ -99,13 +106,15 @@ public class MongoRelatorioRepository implements RelatorioRepository {
                 )
         );
 
-
         for (Document doc : pedidosCollection.aggregate(pipeline)) {
             RelatorioItem item = new RelatorioItem();
             item.setNome(doc.getString("nome"));
             item.setDescricao(doc.getString("descricao"));
-            item.setPrecoVenda(doc.getDouble("precoVenda"));
-            item.setQuantidadeVendida(doc.getInteger("quantidadeVendida"));
+
+            Number preco = doc.get("precoVenda", Number.class);
+            item.setPrecoVenda(preco != null ? preco.doubleValue() : 0.0);
+
+            item.setQuantidadeVendida(doc.getInteger("quantidadeVendida", 0));
             ranking.add(item);
         }
         return ranking;
@@ -118,11 +127,16 @@ public class MongoRelatorioRepository implements RelatorioRepository {
                 Aggregates.match(
                         Filters.and(
                                 Filters.gte("data_pedido", toDate(inicio)),
-                                Filters.lte("data_pedido", toDate(fim))
+                                Filters.lte("data_pedido", toEndOfDay(fim))
                         )
                 ),
                 Aggregates.unwind("$itens"),
-                Aggregates.lookup("itens", "itens.id_item", "id_item", "item_info"),
+                Aggregates.lookup(
+                        "itens",
+                        "itens.id_item",
+                        "_id",
+                        "item_info"
+                ),
                 Aggregates.unwind("$item_info"),
                 Aggregates.group("$itens.id_item",
                         Accumulators.first("nome", "$item_info.nome"),
@@ -148,8 +162,13 @@ public class MongoRelatorioRepository implements RelatorioRepository {
             RelatorioItem item = new RelatorioItem();
             item.setNome(doc.getString("nome"));
             item.setDescricao(doc.getString("descricao"));
-            item.setPrecoVenda(doc.getDouble("precoVenda"));
-            item.setReceitaGerada(doc.getDouble("receitaGerada"));
+
+            Number preco = doc.get("precoVenda", Number.class);
+            item.setPrecoVenda(preco != null ? preco.doubleValue() : 0.0);
+
+            Number receita = doc.get("receitaGerada", Number.class);
+            item.setReceitaGerada(receita != null ? receita.doubleValue() : 0.0);
+
             ranking.add(item);
         }
         return ranking;

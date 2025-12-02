@@ -25,7 +25,7 @@ public class MongoReceitaRepository implements ReceitaRepository {
     @Override
     public void save(Receita receita) {
         collection.updateOne(
-                Filters.eq("_id", receita.getId_produto()),
+                Filters.eq("_id", receita.getId_item()),
                 Updates.push("receita", receita)
         );
         System.out.println("Produto adicionado a receita com sucesso!");
@@ -35,10 +35,10 @@ public class MongoReceitaRepository implements ReceitaRepository {
     public void update(Receita receita) {
         collection.updateOne(
                 Filters.and(
-                        Filters.eq("_id", receita.getId_produto()),
+                        Filters.eq("_id", receita.getId_item()),
                         Filters.eq("receita.id_produto", receita.getId_produto())
                 ),
-                Updates.set("receita.$.quantidade", receita.getQuantidade())
+                Updates.set("receita.$.quantidade_necessaria", receita.getQuantidade())
         );
         System.out.println("Quantidade do produto alterada com sucesso!");
     }

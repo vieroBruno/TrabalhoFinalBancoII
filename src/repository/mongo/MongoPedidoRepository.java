@@ -41,10 +41,14 @@ public class MongoPedidoRepository implements PedidoRepository {
 
     @Override
     public void update(Pedido pedido) {
-        Pedido existing = findById(pedido.getId_pedido());
-        if (existing != null && (pedido.getItens() == null || pedido.getItens().isEmpty())) {
-            pedido.setItens(existing.getItens());
+
+        if (pedido.getItens() == null) {
+            Pedido existing = findById(pedido.getId_pedido());
+            if (existing != null) {
+                pedido.setItens(existing.getItens());
+            }
         }
+
         collection.replaceOne(Filters.eq("_id", pedido.getId_pedido()), pedido);
         System.out.println("Pedido alterado com sucesso!");
     }

@@ -19,7 +19,7 @@ public class MongoPedidoItemRepository implements PedidoItemRepository {
     @Override
     public void save(PedidoItem pedidoItem) {
         collection.updateOne(
-                Filters.eq("_id", pedidoItem.getId_item()),
+                Filters.eq("_id", pedidoItem.getId_pedido()),
                 Updates.push("itens", pedidoItem)
         );
     }

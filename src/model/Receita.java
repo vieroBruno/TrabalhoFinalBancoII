@@ -1,9 +1,12 @@
 package model;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
 public class Receita {
     private int id_produto;
 
     private int id_item;
+    @BsonProperty("quantidade_necessaria")
     private double quantidade;
 
     public Receita() {}

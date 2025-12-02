@@ -95,15 +95,16 @@ public class FuncionarioView {
             fAtualizado.setCargo(ValidacaoHelper.isStringValida(sc,"Novo cargo: "));
         }
 
+        System.out.println("Deseja alterar o telefone? (S/N)");
+        if (sc.nextLine().equalsIgnoreCase("S")) {
+            fAtualizado.setTelefone(ValidacaoHelper.lerTelefone(sc, "Novo telefone (com DDD): "));
+        }
+
         System.out.println("Deseja alterar o salário? (S/N)");
         if (sc.nextLine().equalsIgnoreCase("S")) {
             fAtualizado.setSalario(ValidacaoHelper.lerDouble(sc, "Novo salário: "));
         }
 
-        System.out.println("Deseja alterar o telefone? (S/N)");
-        if (sc.nextLine().equalsIgnoreCase("S")) {
-            fAtualizado.setTelefone(ValidacaoHelper.lerTelefone(sc, "Novo telefone (com DDD): "));
-        }
 
         funcionarioService.editarFuncionario(fAtualizado);
     }
